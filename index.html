@@ -421,11 +421,18 @@
   }
 
   function saveEmail(email) {
+    // Save locally as backup
     const emails = getEmails();
     if (!emails.includes(email)) {
       emails.push(email);
       localStorage.setItem('roam_emails', JSON.stringify(emails));
     }
+    // Send to Formspree
+    fetch('https://formspree.io/f/xwvyypzn', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email: email })
+    });
   }
 
   function isValidEmail(email) {
